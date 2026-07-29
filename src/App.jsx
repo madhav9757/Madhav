@@ -132,7 +132,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col md:flex-row items-center justify-center p-6 gap-8 font-mono">
+    <div className="max-h-screen bg-white flex flex-col md:flex-row items-center justify-center p-6 gap-8 font-mono">
       <TerminalBox 
         history={history}
         input={input}

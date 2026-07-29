@@ -1,47 +1,116 @@
-// 1. Added new commands to the list
+import {
+    Terminal,
+    User,
+    Mail,
+    Briefcase,
+    Phone,
+    MapPin,
+} from "lucide-react";
+
+import {
+    FaGithub,
+    FaLinkedin,
+} from "react-icons/fa";
+
+import {
+    RiTwitterXFill,
+} from "react-icons/ri";
+
 export const COMMAND_LIST = ['help', 'whoami', 'projects', 'skills', 'experience', 'education', 'setup', 'hire', 'contact', 'resume', 'clear', 'github', 'linkedin'];
 
-// 2. Added new aliases (e.g., typing 'cv' triggers 'resume')
 export const ALIASES = { h: 'help', gh: 'github', ln: 'linkedin', cls: 'clear', exp: 'experience', edu: 'education', cv: 'resume', email: 'contact', uses: 'setup' };
 
 export const WELCOME_MESSAGE = (
-    <div className="mb-4 border-b-2 border-gray-800 pb-4 leading-relaxed">
-        <span className="font-bold">λ</span> whoami<br />
-        <strong>Madhav Semwal</strong> — Backend-focused Software Engineer & Developer Tooling Enthusiast.<br /><br />
-        I build scalable web systems, secure authentication services, and automated developer tools using <strong>Go, Node.js, and Redis</strong>.
-        Currently engineering identity infrastructure and LLM-powered CLI utilities.<br /><br />
-        <strong>Available for freelance projects</strong> — type <strong>hire</strong> to work with me.<br /><br />
-        Type <strong>help</strong> to explore. Try: <strong>projects</strong>, <strong>setup</strong>, <strong>experience</strong>.
+    <div className="mb-6 border-b-2 border-gray-800 pb-5 leading-relaxed">
+        {/* Scalable ASCII Art Logo */}
+        <pre className="text-white font-bold text-[10px] sm:text-xs md:text-sm mb-5 leading-tight cursor-default select-none">
+            {`
+███╗   ███╗ █████╗  ██████╗ ██╗  ██╗ █████╗  ██╗   ██╗
+████╗ ████║ ██╔══██╗██╔══██╗██║  ██║ ██╔══██╗██║   ██║
+██╔████╔██║ ███████║██║  ██║███████║ ███████║██║   ██║
+██║╚██╔╝██║ ██╔══██║██║  ██║██╔══██║ ██╔══██║╚██╗ ██╔╝
+██║ ╚═╝ ██║ ██║  ██║██████╔╝██║  ██║ ██║  ██║ ╚████╔╝ 
+╚═╝     ╚═╝ ╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝ ╚═╝  ╚═╝  ╚═══╝  
+      `}
+        </pre>
+
+        <div className="text-gray-300">
+            <span className="bg-white text-black font-bold px-2 py-0.5 text-xs uppercase tracking-widest mr-2 cursor-default">
+                System Online
+            </span>
+            Session started.<br /><br />
+
+            No fluff. Just shipping scalable backends, clean architectures, and raw developer tooling.<br />
+            Currently <span className="text-white font-bold underline decoration-wavy underline-offset-4 decoration-gray-500">locked in</span> on Go, Node.js, and building independent identity systems.<br /><br />
+
+            Type <strong className="text-black bg-white px-1.5 py-0.5 cursor-default hover:bg-gray-300 transition-colors">help</strong> to see what's cooking.<br />
+            Hit <strong className="text-black bg-white px-1.5 py-0.5 mt-1 inline-block cursor-default hover:bg-gray-300 transition-colors">projects</strong> to see the receipts.
+        </div>
     </div>
 );
 
 export const COMMANDS = {
     help: (
-        <div>
-            <strong>💻 System Commands:</strong><br />
-            <strong>help / h</strong>        - Show available commands<br />
-            <strong>clear / cls</strong>     - Clear the terminal<br /><br />
+        <div className="leading-relaxed mt-2 mb-2">
+            <strong className="text-lg text-white flex items-center gap-2">
+                <Terminal size={18} />
+                System Commands
+            </strong>
+            <span className="inline-block w-44 font-bold text-white">help / h</span> <span className="text-gray-400">- Display this command directory</span><br />
+            <span className="inline-block w-44 font-bold text-white">clear / cls</span> <span className="text-gray-400">- Clear the terminal output</span><br /><br />
 
-            <strong>👤 Professional:</strong><br />
-            <strong>whoami</strong>          - Display my identity<br />
-            <strong>skills</strong>          - Show my technical stack<br />
-            <strong>experience / exp</strong> - Professional work history<br />
-            <strong>projects</strong>        - List featured engineering work<br />
-            <strong>education / edu</strong>  - Academic background<br />
-            <strong>setup / uses</strong>     - My development environment (Neovim, etc.)<br />
-            <strong>resume / cv</strong>       - Download my resume<br /><br />
+            <strong className="text-lg text-white flex items-center gap-2">
+                <User size={18} />
+                Professional
+            </strong>
+            <span className="inline-block w-44 font-bold text-white">whoami</span> <span className="text-gray-400">- Display my identity and current focus</span><br />
+            <span className="inline-block w-44 font-bold text-white">skills</span> <span className="text-gray-400">- View my technical arsenal (Go, Node.js)</span><br />
+            <span className="inline-block w-44 font-bold text-white">experience / exp</span> <span className="text-gray-400">- Review my professional work history</span><br />
+            <span className="inline-block w-44 font-bold text-white">projects</span> <span className="text-gray-400">- Explore my engineered backend systems</span><br />
+            <span className="inline-block w-44 font-bold text-white">education / edu</span> <span className="text-gray-400">- View my academic background (SPPU)</span><br />
+            <span className="inline-block w-44 font-bold text-white">setup / uses</span> <span className="text-gray-400">- Read about this portfolio's architecture</span><br />
+            <span className="inline-block w-44 font-bold text-white">resume / cv</span> <span className="text-gray-400">- Download my latest PDF resume</span><br /><br />
 
-            <strong>✉️ Contact & Links:</strong><br />
-            <strong>contact / email</strong>  - Get in touch<br />
-            <strong>hire</strong>           - Freelance availability<br />
-            <strong>github / gh</strong>    - Open GitHub<br />
-            <strong>linkedin / ln</strong>  - Open LinkedIn<br />
+            <strong className="text-lg text-white flex items-center gap-2">
+                <Mail size={18} />
+                Contact & Links
+            </strong>
+            <span className="inline-block w-44 font-bold text-white">contact / email</span> <span className="text-gray-400">- Get my email and location details</span><br />
+            <span className="inline-block w-44 font-bold text-white">hire</span> <span className="text-gray-400">- Check my availability for freelance projects</span><br />
+            <span className="inline-block w-44 font-bold text-white">github / gh</span> <span className="text-gray-400">- Open my GitHub profile</span><br />
+            <span className="inline-block w-44 font-bold text-white">linkedin / ln</span> <span className="text-gray-400">- Open my LinkedIn profile</span><br />
         </div>
     ),
 
-    whoami: <div><strong>Madhav Semwal</strong> — Computer Engineering student at SPPU and freelance web developer building end-to-end architectures.</div>,
+    whoami: (
+        <div className="mt-2 mb-2">
+            <div className="mb-3">
+                <span className="bg-white text-black font-bold px-2 py-1 text-lg uppercase tracking-widest">
+                    Madhav Semwal
+                </span>
+            </div>
 
-    // NEW: Experience Section
+            <div className="font-mono text-gray-300 space-y-1">
+                <div>&gt; Backend Engineer</div>
+                <div>&gt; Go Developer</div>
+                <div>&gt; Systems Programming Enthusiast</div>
+                <div>&gt; Computer Engineering Student @ SPPU</div>
+            </div>
+
+            <div className="mt-4 border-l-2 border-gray-600 pl-4 text-gray-400 leading-relaxed max-w-2xl">
+                I build backend systems, developer tools, authentication platforms,
+                and networking applications with a strong focus on performance,
+                scalability, and clean architecture. I'm currently building my own
+                Git-compatible version control system in Go while exploring distributed
+                systems, low-level software design, and open-source development.
+            </div>
+
+            <div className="mt-4 text-sm text-gray-500 font-mono">
+                Focus: Backend • Systems • Networking • Go • AI • Open Source
+            </div>
+        </div>
+    ),
+
     experience: (
         <div>
             <strong>Work Experience:</strong><br /><br />
@@ -56,7 +125,6 @@ export const COMMANDS = {
         </div>
     ),
 
-    // NEW: Education Section
     education: (
         <div>
             <strong>Academic Background:</strong><br /><br />
@@ -66,86 +134,171 @@ export const COMMANDS = {
         </div>
     ),
 
-    // NEW: Setup/Uses Section (Highly recommended for Neovim users)
     setup: (
-        <div>
-            <strong>Development Environment (/uses):</strong><br /><br />
-            • <strong>Editor:</strong> Neovim (Custom LazyVim distribution) with Telescope and Tree-sitter.<br />
-            • <strong>Terminal:</strong> Windows Terminal + tmux.<br />
-            • <strong>OS:</strong> WSL2 on Windows.<br />
-            • <strong>Theme:</strong> Brutalist Monochrome.<br />
-            • <strong>Hardware:</strong> [Your Keyboard/Laptop Specs - optional but fun].<br />
+        <div className="flex flex-col gap-4 mt-2 mb-2 w-full max-w-2xl">
+            <div className="font-bold text-lg border-b-2 border-white pb-1 inline-block w-fit uppercase tracking-widest">
+                System Architecture
+            </div>
+            <div className="text-gray-300 leading-relaxed">
+                This terminal is not a pre-built template or library. It is a custom web application engineered from scratch to reflect my design philosophy: high-density, structurally clean interfaces.
+            </div>
+
+            <div className="flex flex-col gap-4 mt-2">
+                <div className="border-l-4 border-gray-700 pl-4 hover:border-white transition-colors cursor-default">
+                    <span className="font-bold text-white uppercase tracking-wider text-sm">Frontend Engine</span>
+                    <div className="text-gray-300 mt-1">Built entirely on React and bundled with Vite for lightning-fast HMR and heavily optimized, minimal production builds.</div>
+                </div>
+
+                <div className="border-l-4 border-gray-700 pl-4 hover:border-white transition-colors cursor-default">
+                    <span className="font-bold text-white uppercase tracking-wider text-sm">Styling & UI</span>
+                    <div className="text-gray-300 mt-1">Utility-first styling via Tailwind CSS, enforcing a strict brutalist monochrome aesthetic. The design prioritizes stark contrasts, sharp 0px borders, and raw typography using Fira Code.</div>
+                </div>
+
+                <div className="border-l-4 border-gray-700 pl-4 hover:border-white transition-colors cursor-default">
+                    <span className="font-bold text-white uppercase tracking-wider text-sm">Terminal Mechanics</span>
+                    <div className="text-gray-300 mt-1">Engineered with zero external CLI dependencies. Features custom global key trapping, React state-driven history logging, and a hidden DOM mirroring technique to calculate exact pixel widths for the Neovim-style ghost text autocomplete.</div>
+                </div>
+            </div>
         </div>
     ),
 
     projects: (
-        <div className="flex flex-col gap-6 mt-2 mb-4 w-full max-w-3xl">
+        <div className="flex flex-col gap-6 mt-2 mb-4 w-full max-w-4xl">
             <div className="font-bold text-lg border-b-2 border-white pb-1 inline-block w-fit uppercase tracking-widest">
                 Featured Engineering
             </div>
 
-            <div className="flex flex-col gap-6 mt-2">
+            <div className="flex flex-col gap-7 mt-2">
 
-                {/* AuthSphere */}
-                <div className="border-l-4 border-gray-700 pl-4 hover:border-white transition-colors group cursor-default">
+                {/* MyGit */}
+                <div className="border-l-4 border-white pl-4 hover:border-gray-300 transition-colors group cursor-default">
                     <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3">
-                        <span className="font-bold text-white text-lg group-hover:underline underline-offset-4">AuthSphere</span>
-                        <span className="text-gray-500 text-sm font-mono">[Winter 2025]</span>
+                        <span className="font-bold text-white text-lg group-hover:underline underline-offset-4">
+                            MyGit
+                        </span>
+                        <span className="text-gray-500 text-sm font-mono">
+                            [Ongoing]
+                        </span>
                     </div>
-                    <div className="text-gray-300 mt-1 leading-relaxed">
-                        Centralized multi-tenant authentication engine. Implements OAuth 2.0 with PKCE for secure login flows and provides a plug-and-play developer SDK.
-                    </div>
-                    <div className="flex flex-wrap gap-2 mt-3">
-                        <span className="text-xs bg-white text-black font-bold px-1.5 py-0.5">Node.js</span>
-                        <span className="text-xs bg-white text-black font-bold px-1.5 py-0.5">Go</span>
-                        <span className="text-xs border border-gray-500 text-gray-400 px-1.5 py-0.5">OAuth 2.0</span>
-                        <span className="text-xs border border-gray-500 text-gray-400 px-1.5 py-0.5">TypeScript</span>
-                    </div>
-                </div>
 
-                {/* AICOMM */}
-                <div className="border-l-4 border-gray-700 pl-4 hover:border-white transition-colors group cursor-default">
-                    <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3">
-                        <span className="font-bold text-white text-lg group-hover:underline underline-offset-4">AICOMM</span>
-                        <span className="text-gray-500 text-sm font-mono">[Summer 2025]</span>
+                    <div className="text-gray-300 mt-2 leading-relaxed">
+                        Building a Git-compatible Version Control System completely from
+                        scratch in Go. Implementing Git internals including object storage,
+                        blobs, trees, commits, SHA-1 hashing, references, staging area,
+                        branching, merging and repository management while understanding how
+                        Git works under the hood.
                     </div>
-                    <div className="text-gray-300 mt-1 leading-relaxed">
-                        AI-powered CLI utility that parses Git diffs to generate context-aware Conventional Commit messages using LLMs and dry-run execution.
-                    </div>
+
                     <div className="flex flex-wrap gap-2 mt-3">
-                        <span className="text-xs bg-white text-black font-bold px-1.5 py-0.5">LLMs</span>
-                        <span className="text-xs border border-gray-500 text-gray-400 px-1.5 py-0.5">CLI Architecture</span>
-                        <span className="text-xs border border-gray-500 text-gray-400 px-1.5 py-0.5">Git Internals</span>
+                        <span className="text-xs bg-white text-black font-bold px-2 py-1">Go</span>
+                        <span className="text-xs bg-white text-black font-bold px-2 py-1">Git Internals</span>
+                        <span className="text-xs border border-gray-500 text-gray-400 px-2 py-1">SHA-1</span>
+                        <span className="text-xs border border-gray-500 text-gray-400 px-2 py-1">CLI</span>
+                        <span className="text-xs border border-gray-500 text-gray-400 px-2 py-1">Version Control</span>
                     </div>
                 </div>
 
                 {/* Syncra */}
                 <div className="border-l-4 border-gray-700 pl-4 hover:border-white transition-colors group cursor-default">
                     <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3">
-                        <span className="font-bold text-white text-lg group-hover:underline underline-offset-4">Syncra</span>
+                        <span className="font-bold text-white text-lg group-hover:underline underline-offset-4">
+                            Syncra
+                        </span>
+                        <span className="text-gray-500 text-sm font-mono">
+                            [2025]
+                        </span>
                     </div>
-                    <div className="text-gray-300 mt-1 leading-relaxed">
-                        End-to-end encrypted zero-knowledge communication platform structured around a stateless relay cluster and message buses.
+
+                    <div className="text-gray-300 mt-2 leading-relaxed">
+                        Real-time peer-to-peer messaging platform built in Go featuring
+                        end-to-end encryption, secure public/private key authentication,
+                        WebSockets, PostgreSQL, and automatic peer discovery. Designed with a
+                        scalable backend architecture for low-latency communication.
                     </div>
+
                     <div className="flex flex-wrap gap-2 mt-3">
-                        <span className="text-xs bg-white text-black font-bold px-1.5 py-0.5">Go</span>
-                        <span className="text-xs bg-white text-black font-bold px-1.5 py-0.5">Redis Pub/Sub</span>
-                        <span className="text-xs border border-gray-500 text-gray-400 px-1.5 py-0.5">Cryptography</span>
+                        <span className="text-xs bg-white text-black font-bold px-2 py-1">Go</span>
+                        <span className="text-xs bg-white text-black font-bold px-2 py-1">WebSockets</span>
+                        <span className="text-xs bg-white text-black font-bold px-2 py-1">PostgreSQL</span>
+                        <span className="text-xs border border-gray-500 text-gray-400 px-2 py-1">Cryptography</span>
+                        <span className="text-xs border border-gray-500 text-gray-400 px-2 py-1">Networking</span>
                     </div>
                 </div>
 
-                {/* NexChat & Discussly (Combined for compact layout) */}
+                {/* AuthSphere */}
                 <div className="border-l-4 border-gray-700 pl-4 hover:border-white transition-colors group cursor-default">
                     <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3">
-                        <span className="font-bold text-white text-lg">NexChat & Discussly</span>
+                        <span className="font-bold text-white text-lg group-hover:underline underline-offset-4">
+                            AuthSphere
+                        </span>
+                        <span className="text-gray-500 text-sm font-mono">
+                            [2025]
+                        </span>
                     </div>
-                    <div className="text-gray-300 mt-1 leading-relaxed">
-                        Real-time messaging platform with concurrent Go CLI clients, alongside a minimalist open-source forum system backed by PostgreSQL.
+
+                    <div className="text-gray-300 mt-2 leading-relaxed">
+                        Enterprise-grade authentication platform implementing OAuth 2.0,
+                        PKCE, JWT authentication, refresh token rotation, and developer SDKs.
+                        Supports Google, GitHub and Discord authentication with a
+                        multi-tenant architecture.
                     </div>
+
                     <div className="flex flex-wrap gap-2 mt-3">
-                        <span className="text-xs border border-gray-500 text-gray-400 px-1.5 py-0.5">Socket.io</span>
-                        <span className="text-xs border border-gray-500 text-gray-400 px-1.5 py-0.5">PostgreSQL</span>
-                        <span className="text-xs border border-gray-500 text-gray-400 px-1.5 py-0.5">WebSockets</span>
+                        <span className="text-xs bg-white text-black font-bold px-2 py-1">Node.js</span>
+                        <span className="text-xs bg-white text-black font-bold px-2 py-1">OAuth 2.0</span>
+                        <span className="text-xs bg-white text-black font-bold px-2 py-1">JWT</span>
+                        <span className="text-xs border border-gray-500 text-gray-400 px-2 py-1">TypeScript</span>
+                        <span className="text-xs border border-gray-500 text-gray-400 px-2 py-1">MongoDB</span>
+                    </div>
+                </div>
+
+                {/* AICOMM */}
+                <div className="border-l-4 border-gray-700 pl-4 hover:border-white transition-colors group cursor-default">
+                    <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3">
+                        <span className="font-bold text-white text-lg group-hover:underline underline-offset-4">
+                            AICOMM
+                        </span>
+                        <span className="text-gray-500 text-sm font-mono">
+                            [2025]
+                        </span>
+                    </div>
+
+                    <div className="text-gray-300 mt-2 leading-relaxed">
+                        AI-powered Git commit assistant that analyzes staged and unstaged diffs
+                        to generate Conventional Commit messages using LLMs. Includes dry-run
+                        mode, configurable providers, and OpenRouter integration for multiple
+                        language models.
+                    </div>
+
+                    <div className="flex flex-wrap gap-2 mt-3">
+                        <span className="text-xs bg-white text-black font-bold px-2 py-1">Go</span>
+                        <span className="text-xs bg-white text-black font-bold px-2 py-1">LLMs</span>
+                        <span className="text-xs border border-gray-500 text-gray-400 px-2 py-1">Git CLI</span>
+                        <span className="text-xs border border-gray-500 text-gray-400 px-2 py-1">OpenRouter</span>
+                        <span className="text-xs border border-gray-500 text-gray-400 px-2 py-1">Conventional Commits</span>
+                    </div>
+                </div>
+
+                {/* RepoSensei */}
+                <div className="border-l-4 border-gray-700 pl-4 hover:border-white transition-colors group cursor-default">
+                    <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3">
+                        <span className="font-bold text-white text-lg group-hover:underline underline-offset-4">
+                            RepoSensei
+                        </span>
+                    </div>
+
+                    <div className="text-gray-300 mt-2 leading-relaxed">
+                        AI-powered GitHub repository analyzer that generates documentation,
+                        project summaries, README files, and repository insights using LLMs.
+                        Built with GitHub OAuth, vector search, and automated code analysis.
+                    </div>
+
+                    <div className="flex flex-wrap gap-2 mt-3">
+                        <span className="text-xs bg-white text-black font-bold px-2 py-1">Next.js</span>
+                        <span className="text-xs bg-white text-black font-bold px-2 py-1">GenAI</span>
+                        <span className="text-xs border border-gray-500 text-gray-400 px-2 py-1">GitHub API</span>
+                        <span className="text-xs border border-gray-500 text-gray-400 px-2 py-1">OAuth</span>
+                        <span className="text-xs border border-gray-500 text-gray-400 px-2 py-1">LangChain</span>
                     </div>
                 </div>
 
@@ -261,7 +414,10 @@ export const COMMANDS = {
 
     hire: (
         <div>
-            <strong>💼 Available for Freelance Projects</strong><br /><br />
+            <div className="flex items-center gap-2 font-bold">
+                <Briefcase size={18} />
+                Available for Freelance Projects
+            </div>
             I take on robust backend architecture and full-stack development work:<br />
             • Secure authentication systems & API design<br />
             • High-performance Go microservices<br />
@@ -270,20 +426,93 @@ export const COMMANDS = {
         </div>
     ),
 
-    // NEW: Dedicated Contact Section
     contact: (
-        <div>
-            <strong>Get in Touch:</strong><br />
-            • <strong>Email:</strong> <a href="mailto:madhavsemwal9@gmail.com" className="underline decoration-2 hover:bg-white hover:text-black transition-colors">madhavsemwal9@gmail.com</a><br />
-            • <strong>Phone:</strong> +91 8806799065<br />
-            • <strong>Twitter/X:</strong> <a href="https://x.com/semwal_mad92552" target="_blank" className="underline decoration-2 hover:bg-white hover:text-black transition-colors">@semwal_mad92552</a><br />
-            • <strong>Location:</strong> Pune, India<br />
+        <div className="mt-2 max-w-2xl">
+            <strong className="text-lg text-white flex items-center gap-2">
+                <Mail size={18} />
+                Contact & Links
+            </strong>
+
+            <div className="mt-4 font-mono text-gray-300 space-y-2">
+
+                <div>
+                    <span className="text-white font-bold">❯ <Mail size={16} className="inline mr-2" />
+                        Email</span>
+                    <span className="text-gray-500"> ........ </span>
+                    <a
+                        href="mailto:madhavsemwal9@gmail.com"
+                        className="underline decoration-2 hover:bg-white hover:text-black transition-colors"
+                    >
+                        madhavsemwal9@gmail.com
+                    </a>
+                </div>
+
+                <div>
+                    <span className="text-white font-bold">❯ <Phone size={16} className="inline mr-2" />
+                        Phone</span>
+                    <span className="text-gray-500"> ........ </span>
+                    +91 8806799065
+                </div>
+
+                <div>
+                    <span className="text-white font-bold">❯ <FaGithub size={16} className="inline mr-2" />
+                        GitHub</span>
+                    <span className="text-gray-500"> ....... </span>
+                    <a
+                        href="https://github.com/madhav9757"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="underline decoration-2 hover:bg-white hover:text-black transition-colors"
+                    >
+                        github.com/madhav9757
+                    </a>
+                </div>
+
+                <div>
+                    <span className="text-white font-bold">❯ <FaLinkedin size={16} className="inline mr-2" />
+                        LinkedIn</span>
+                    <span className="text-gray-500"> ..... </span>
+                    <a
+                        href="https://linkedin.com/in/madhav-semwal-b40272377/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="underline decoration-2 hover:bg-white hover:text-black transition-colors"
+                    >
+                        linkedin.com/in/madhav-semwal-b40272377/
+                    </a>
+                </div>
+
+                <div>
+                    <span className="text-white font-bold">❯ <RiTwitterXFill size={16} className="inline mr-2" />
+                        (Twitter)</span>
+                    <span className="text-gray-500"> .... </span>
+                    <a
+                        href="https://x.com/semwal_mad92552"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="underline decoration-2 hover:bg-white hover:text-black transition-colors"
+                    >
+                        @semwal_mad92552
+                    </a>
+                </div>
+
+                <div>
+                    <span className="text-white font-bold">❯ <MapPin size={16} className="inline mr-2" />
+                        Location</span>
+                    <span className="text-gray-500"> .... </span>
+                    Pune, Maharashtra, India
+                </div>
+
+            </div>
+
+            <div className="mt-5 border-l-2 border-gray-600 pl-4 text-gray-400 italic">
+                Always open to collaborating on backend systems, Go projects,
+                developer tools, and open-source contributions.
+            </div>
         </div>
     ),
 
-    // NEW: Resume Download Function
     resume: () => {
-        // Make sure to put your actual PDF in the 'public' folder of your Vite project
         window.open("/MADHAV SEMWAL - Resume.pdf", "_blank");
         return <div>Opening resume in a new tab...</div>;
     },
@@ -298,6 +527,5 @@ export const COMMANDS = {
         return <div>Opening LinkedIn...</div>;
     },
 
-    // NEW: Easter Egg
     sudo: <div className="text-red-500">madhav is not in the sudoers file. This incident will be reported.</div>
 };
