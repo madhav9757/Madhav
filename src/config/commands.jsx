@@ -324,8 +324,6 @@ export const COMMANDS = {
                         <span className="bg-white text-black font-bold px-2 py-1 text-sm">TypeScript</span>
                         <span className="bg-white text-black font-bold px-2 py-1 text-sm">JavaScript (ES6+)</span>
                         <span className="bg-white text-black font-bold px-2 py-1 text-sm">C++</span>
-                        <span className="border border-gray-400 text-gray-300 px-2 py-1 text-sm hover:bg-white hover:text-black transition-colors">Python</span>
-                        <span className="border border-gray-400 text-gray-300 px-2 py-1 text-sm hover:bg-white hover:text-black transition-colors">SQL</span>
                     </div>
                 </div>
 
