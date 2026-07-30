@@ -57,7 +57,7 @@ export const COMMANDS = {
 
     // Action commands
     resume: () => {
-        window.open("/Madhav-Semwal-Resume.pdf", "_blank");
+        window.open("/MADHAV SEMWAL - Resume.pdf", "_blank");
         return <div className="text-gray-300">Opening resume in a new tab...</div>;
     },
 
@@ -67,7 +67,7 @@ export const COMMANDS = {
     },
 
     linkedin: () => {
-        window.open("https://linkedin.com/in/madhavsemwal", "_blank");
+        window.open("https://linkedin.com/in/madhav-semwal-b40272377/", "_blank");
         return <div className="text-gray-300">Opening LinkedIn...</div>;
     },
 
