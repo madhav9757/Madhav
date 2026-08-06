@@ -1,13 +1,26 @@
-import { useState, useEffect, useRef } from 'react';
-import { COMMAND_LIST, ALIASES, WELCOME_MESSAGE, COMMANDS } from './config/commands';
+import { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import { COMMAND_LIST, WELCOME_MESSAGE, THEMES, getCommandResponse } from './config/commands';
 import CommandBar from './components/CommandBar';
 import TerminalBox from './components/TerminalBox';
 
 export default function App() {
+  // Theme state with local storage persistence
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('madhav_terminal_theme') || 'default';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('madhav_terminal_theme', theme);
+  }, [theme]);
+
+  const cycleTheme = () => {
+    const nextIdx = (THEMES.indexOf(theme) + 1) % THEMES.length;
+    setTheme(THEMES[nextIdx]);
+  };
+
   // State
   const [history, setHistory] = useState([{ id: 0, type: 'output', content: WELCOME_MESSAGE }]);
   const [input, setInput] = useState('');
-  const [hint, setHint] = useState('');
   const [hintOffset, setHintOffset] = useState(0);
   const [cmdHistory, setCmdHistory] = useState([]);
   const [historyIdx, setHistoryIdx] = useState(-1);
@@ -15,17 +28,37 @@ export default function App() {
   // Refs for DOM manipulation
   const inputRef = useRef(null);
   const mirrorRef = useRef(null);
-  const terminalEndRef = useRef(null);
 
-  // --- NEW: Auto-focus on initial load ---
+  // Derive autocomplete hint during render (No state-in-effect warning!)
+  const hintMatch = input ? COMMAND_LIST.find(c => c.startsWith(input.toLowerCase())) : null;
+  const hint = (input && hintMatch) ? hintMatch.slice(input.length) : '';
+
+  // Calculate hint offset measure synchronously after layout updates
+  useLayoutEffect(() => {
+    if (input && mirrorRef.current) {
+      setHintOffset(mirrorRef.current.offsetWidth);
+    } else {
+      setHintOffset(0);
+    }
+  }, [input]);
+
+  // Auto-focus input on mount
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
 
-  // --- NEW: Global key capture for seamless keyboard-driven UX ---
+  // Global key capture for seamless typing & standard bash shortcuts
   useEffect(() => {
     const handleGlobalTyping = (e) => {
-      // If user types a normal character and isn't focused on the input, focus it instantly
+      // Ctrl+L shortcut for Clear Screen
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'l') {
+        e.preventDefault();
+        setHistory([]);
+        setInput('');
+        return;
+      }
+
+      // Seamless typing focus capture
       if (
         !e.ctrlKey && 
         !e.metaKey && 
@@ -39,62 +72,33 @@ export default function App() {
     return () => window.removeEventListener('keydown', handleGlobalTyping);
   }, []);
 
-  // Auto-scroll to bottom on new output
-  useEffect(() => {
-    terminalEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [history]);
-
-  // Calculate autocomplete hint text and offset dynamically
-  useEffect(() => {
-    if (!input) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setHint('');
-      return;
-    }
-    const match = COMMAND_LIST.find(c => c.startsWith(input.toLowerCase()));
-    if (match) {
-      setHint(match.slice(input.length));
-      if (mirrorRef.current) {
-        setHintOffset(mirrorRef.current.offsetWidth);
-      }
-    } else {
-      setHint('');
-    }
-  }, [input]);
-
   // Core execution logic
   const processCommand = (rawCmd) => {
-    const cmdStr = rawCmd.trim().toLowerCase();
+    const cmdStr = rawCmd.trim();
     if (!cmdStr) return;
+
+    const lowerCmd = cmdStr.toLowerCase();
 
     // Track command history for up/down arrows
     const newCmdHistory = [...cmdHistory, cmdStr];
     setCmdHistory(newCmdHistory);
     setHistoryIdx(newCmdHistory.length);
 
-    // Resolve aliases (e.g. 'gh' -> 'github')
-    const resolvedCmd = ALIASES[cmdStr] || cmdStr;
-
-    if (resolvedCmd === 'clear') {
+    if (lowerCmd === 'clear' || lowerCmd === 'cls') {
       setHistory([]);
       setInput('');
       return;
     }
 
-    // Generate output
-    let response;
-    if (typeof COMMANDS[resolvedCmd] === 'function') {
-      response = COMMANDS[resolvedCmd]();
-    } else if (COMMANDS[resolvedCmd]) {
-      response = COMMANDS[resolvedCmd];
-    } else {
-      const closestMatch = COMMAND_LIST.find(c => c.startsWith(resolvedCmd));
-      response = closestMatch 
-        ? <div>Did you mean <strong>{closestMatch}</strong>?</div> 
-        : <div className="text-red-400">Command not found: {cmdStr}</div>;
-    }
+    // Generate response using context router
+    const response = getCommandResponse(cmdStr, {
+      onSelectCommand: processCommand,
+      theme,
+      setTheme,
+      cmdHistory: newCmdHistory
+    });
 
-    // Append to UI
+    // Append to UI history
     setHistory(prev => [
       ...prev,
       { id: Date.now(), type: 'input', content: rawCmd },
@@ -103,36 +107,58 @@ export default function App() {
     setInput('');
   };
 
-  // Keyboard navigation
+  // Keyboard navigation & Shortcuts
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
       processCommand(input);
     } else if (e.key === 'Tab' || e.key === 'ArrowRight') {
+      if (hint) {
+        e.preventDefault();
+        setInput(input + hint);
+      }
+    } else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'c') {
+      // Ctrl+C: Cancel line buffer
       e.preventDefault();
-      if (hint) setInput(input + hint);
+      setHistory(prev => [
+        ...prev,
+        { id: Date.now(), type: 'input', content: `${input}^C` }
+      ]);
+      setInput('');
+    } else if (e.key === 'Escape') {
+      e.preventDefault();
+      setInput('');
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       if (historyIdx > 0) {
         const nextIdx = historyIdx - 1;
         setHistoryIdx(nextIdx);
         setInput(cmdHistory[nextIdx]);
+      } else if (historyIdx === -1 && cmdHistory.length > 0) {
+        const nextIdx = cmdHistory.length - 1;
+        setHistoryIdx(nextIdx);
+        setInput(cmdHistory[nextIdx]);
       }
     } else if (e.key === 'ArrowDown') {
       e.preventDefault();
-      if (historyIdx < cmdHistory.length - 1) {
+      if (historyIdx >= 0 && historyIdx < cmdHistory.length - 1) {
         const nextIdx = historyIdx + 1;
         setHistoryIdx(nextIdx);
         setInput(cmdHistory[nextIdx]);
       } else {
-        setHistoryIdx(cmdHistory.length);
+        setHistoryIdx(-1);
         setInput('');
       }
     }
   };
 
   return (
-    <div className="max-h-screen bg-white flex flex-col md:flex-row items-center justify-center p-6 gap-8 font-mono">
+    <div 
+      className="min-h-screen bg-white flex flex-col md:flex-row items-center justify-center p-4 md:p-6 gap-6 md:gap-8 font-mono transition-colors duration-300"
+      style={{
+        backgroundColor: theme === 'matrix' ? '#020904' : theme === 'amber' ? '#0a0600' : theme === 'nord' ? '#070c14' : theme === 'cyberpunk' ? '#08040c' : '#ffffff'
+      }}
+    >
       <TerminalBox 
         history={history}
         input={input}
@@ -142,10 +168,15 @@ export default function App() {
         onKeyDown={handleKeyDown}
         inputRef={inputRef}
         mirrorRef={mirrorRef}
-        terminalEndRef={terminalEndRef}
         focusInput={() => inputRef.current?.focus()}
+        onClear={() => setHistory([])}
+        theme={theme}
       />
-      <CommandBar onCommand={processCommand} />
+      <CommandBar 
+        onCommand={processCommand} 
+        onToggleTheme={cycleTheme}
+        currentTheme={theme}
+      />
     </div>
   );
 }

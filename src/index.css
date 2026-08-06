@@ -1,16 +1,87 @@
 @import "tailwindcss";
 
+@layer base {
+  :root {
+    --bg-main: #000000;
+    --text-main: #ffffff;
+    --text-muted: #9ca3af;
+    --text-accent: #ffffff;
+    --border-color: #ffffff;
+    --border-dim: #374151;
+    --shadow-color: #cccccc;
+    --badge-bg: #ffffff;
+    --badge-text: #000000;
+  }
+
+  [data-theme="matrix"] {
+    --bg-main: #050d08;
+    --text-main: #00ff66;
+    --text-muted: #15803d;
+    --text-accent: #86efac;
+    --border-color: #00ff66;
+    --border-dim: #14532d;
+    --shadow-color: #052e16;
+    --badge-bg: #00ff66;
+    --badge-text: #050d08;
+  }
+
+  [data-theme="amber"] {
+    --bg-main: #0f0a00;
+    --text-main: #ffb000;
+    --text-muted: #b45309;
+    --text-accent: #fde047;
+    --border-color: #ffb000;
+    --border-dim: #78350f;
+    --shadow-color: #451a03;
+    --badge-bg: #ffb000;
+    --badge-text: #0f0a00;
+  }
+
+  [data-theme="nord"] {
+    --bg-main: #0b1320;
+    --text-main: #38bdf8;
+    --text-muted: #64748b;
+    --text-accent: #7dd3fc;
+    --border-color: #38bdf8;
+    --border-dim: #1e293b;
+    --shadow-color: #0f172a;
+    --badge-bg: #38bdf8;
+    --badge-text: #0b1320;
+  }
+
+  [data-theme="cyberpunk"] {
+    --bg-main: #0d0714;
+    --text-main: #f43f5e;
+    --text-muted: #a21caf;
+    --text-accent: #e879f9;
+    --border-color: #f43f5e;
+    --border-dim: #581c87;
+    --shadow-color: #3b0764;
+    --badge-bg: #f43f5e;
+    --badge-text: #0d0714;
+  }
+}
+
 .custom-scrollbar::-webkit-scrollbar {
-  width: 12px;
+  width: 10px;
 }
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #111; 
-  border-left: 2px solid #333;
+  background: var(--bg-main); 
+  border-left: 2px solid var(--border-dim);
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #fff; 
-  border: 2px solid #111; /* Creates a stark boxy look */
+  background: var(--text-main); 
+  border: 2px solid var(--bg-main);
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #ccc;
+  background: var(--text-accent);
+}
+
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
