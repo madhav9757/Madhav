@@ -67,24 +67,24 @@ export default function TerminalBox({
           </span>
           <button 
             onClick={(e) => { e.stopPropagation(); setIsMinimized(!isMinimized); }}
-            className="w-5 h-5 border-2 border-black hover:opacity-80 transition-opacity flex items-center justify-center text-xs font-bold leading-none cursor-pointer"
-            style={{ backgroundColor: 'var(--badge-bg)', color: 'var(--badge-text)' }}
+            className="w-5 h-5 border-2 hover:opacity-80 transition-opacity flex items-center justify-center text-xs font-bold leading-none cursor-pointer"
+            style={{ backgroundColor: 'var(--badge-bg)', color: 'var(--badge-text)', borderColor: 'var(--badge-text)' }}
             title={isMinimized ? "Expand Terminal" : "Minimize Terminal"}
           >
             _
           </button>
           <button 
             onClick={(e) => { e.stopPropagation(); setIsMaximized(!isMaximized); }}
-            className="w-5 h-5 border-2 border-black hover:opacity-80 transition-opacity flex items-center justify-center text-xs font-bold leading-none cursor-pointer"
-            style={{ backgroundColor: 'var(--badge-bg)', color: 'var(--badge-text)' }}
+            className="w-5 h-5 border-2 hover:opacity-80 transition-opacity flex items-center justify-center text-xs font-bold leading-none cursor-pointer"
+            style={{ backgroundColor: 'var(--badge-bg)', color: 'var(--badge-text)', borderColor: 'var(--badge-text)' }}
             title={isMaximized ? "Restore Size" : "Maximize Terminal"}
           >
             □
           </button>
           <button 
             onClick={(e) => { e.stopPropagation(); if (onClear) onClear(); }}
-            className="w-5 h-5 border-2 border-black hover:opacity-80 transition-opacity flex items-center justify-center text-xs font-bold leading-none cursor-pointer"
-            style={{ backgroundColor: 'var(--badge-text)', color: 'var(--badge-bg)' }}
+            className="w-5 h-5 border-2 hover:opacity-80 transition-opacity flex items-center justify-center text-xs font-bold leading-none cursor-pointer"
+            style={{ backgroundColor: 'var(--badge-text)', color: 'var(--badge-bg)', borderColor: 'var(--badge-text)' }}
             title="Clear Terminal Output"
           >
             ×
@@ -102,13 +102,13 @@ export default function TerminalBox({
               key={entry.id}
               className={`wrap-break-word whitespace-pre-wrap ${entry.type === 'input' ? 'mt-2 opacity-90' : 'ml-2 sm:ml-4'}`}
             >
-              {entry.type === 'input' && <span className="font-bold mr-2 text-white">λ</span>}
+              {entry.type === 'input' && <span className="font-bold mr-2" style={{ color: 'var(--text-main)' }}>λ</span>}
               {entry.content}
             </div>
           ))}
 
           <div className="flex items-center relative mt-2 w-full">
-            <span className="font-bold mr-2 text-white animate-pulse">λ</span>
+            <span className="font-bold mr-2 animate-pulse" style={{ color: 'var(--text-main)' }}>λ</span>
 
             <div className="relative grow flex items-center">
               <span
@@ -133,8 +133,8 @@ export default function TerminalBox({
 
               {hint && (
                 <span
-                  className="absolute text-gray-500 text-lg whitespace-pre pointer-events-none font-mono opacity-60"
-                  style={{ left: hintOffset }}
+                  className="absolute text-lg whitespace-pre pointer-events-none font-mono opacity-50"
+                  style={{ left: hintOffset, color: 'var(--text-muted)' }}
                 >
                   {hint}
                 </span>
@@ -145,8 +145,8 @@ export default function TerminalBox({
       )}
 
       {isMinimized && (
-        <div className="p-4 text-center text-gray-400 font-mono text-sm">
-          Terminal session minimized. Click <button onClick={() => setIsMinimized(false)} className="underline text-white font-bold">Expand (_)</button> to restore.
+        <div className="p-4 text-center font-mono text-sm" style={{ color: 'var(--text-muted)' }}>
+          Terminal session minimized. Click <button onClick={() => setIsMinimized(false)} className="underline font-bold" style={{ color: 'var(--text-main)' }}>Expand (_)</button> to restore.
         </div>
       )}
     </div>

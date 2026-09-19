@@ -154,10 +154,9 @@ export default function App() {
 
   return (
     <div 
-      className="min-h-screen bg-white flex flex-col md:flex-row items-center justify-center p-4 md:p-6 gap-6 md:gap-8 font-mono transition-colors duration-300"
-      style={{
-        backgroundColor: theme === 'matrix' ? '#020904' : theme === 'amber' ? '#0a0600' : theme === 'nord' ? '#070c14' : theme === 'cyberpunk' ? '#08040c' : '#ffffff'
-      }}
+      data-theme={theme}
+      className="min-h-screen flex flex-col md:flex-row items-center justify-center p-4 md:p-6 gap-6 md:gap-8 font-mono transition-colors duration-300"
+      style={{ backgroundColor: 'var(--bg-main)' }}
     >
       <TerminalBox 
         history={history}
@@ -176,6 +175,7 @@ export default function App() {
         onCommand={processCommand} 
         onToggleTheme={cycleTheme}
         currentTheme={theme}
+        theme={theme}
       />
     </div>
   );

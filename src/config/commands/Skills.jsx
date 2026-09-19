@@ -1,103 +1,86 @@
 import 'react'
 
 const Skills = () => {
+    const primaryBadge = { backgroundColor: 'var(--badge-bg)', color: 'var(--badge-text)', fontWeight: 'bold' }
+    const secondaryBadge = { border: '1px solid var(--border-dim)', color: 'var(--text-muted)' }
+    const secondaryBadgeHover = { backgroundColor: 'var(--text-main)', color: 'var(--bg-main)' }
+
+    const Badge = ({ primary, children }) => (
+        <span
+            className="px-2 py-1 text-sm cursor-default transition-colors"
+            style={primary ? primaryBadge : secondaryBadge}
+            onMouseEnter={e => { if (!primary) { Object.assign(e.currentTarget.style, secondaryBadgeHover) } }}
+            onMouseLeave={e => { if (!primary) { Object.assign(e.currentTarget.style, secondaryBadge) } }}
+        >
+            {children}
+        </span>
+    )
+
     return (
         <div className="flex flex-col gap-4 mt-2 mb-2 w-full max-w-4xl">
-            <div className="font-bold text-lg border-b-2 border-white pb-1 inline-block w-fit uppercase tracking-widest">
+            <div className="font-bold text-lg border-b-2 pb-1 w-fit uppercase tracking-widest"
+                style={{ borderColor: 'var(--border-color)', color: 'var(--text-main)' }}>
                 Technical Arsenal
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-8 mt-2">
 
-                {/* Programming Languages */}
                 <div>
-                    <div className="text-gray-500 mb-2 text-sm uppercase tracking-widest">
+                    <div className="mb-2 text-sm uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
                         === Programming Languages ===
                     </div>
                     <div className="flex flex-wrap gap-2 cursor-default">
-                        <span className="bg-white text-black font-bold px-2 py-1 text-sm">Go</span>
-                        <span className="bg-white text-black font-bold px-2 py-1 text-sm">TypeScript</span>
-                        <span className="bg-white text-black font-bold px-2 py-1 text-sm">JavaScript (ES6+)</span>
-                        <span className="bg-white text-black font-bold px-2 py-1 text-sm">C++</span>
+                        {['Go', 'TypeScript', 'JavaScript (ES6+)', 'C++'].map(s => <Badge key={s} primary>{s}</Badge>)}
                     </div>
                 </div>
 
-                {/* Backend */}
                 <div>
-                    <div className="text-gray-500 mb-2 text-sm uppercase tracking-widest">
-                        === Backend & APIs ===
+                    <div className="mb-2 text-sm uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
+                        === Backend &amp; APIs ===
                     </div>
                     <div className="flex flex-wrap gap-2 cursor-default">
-                        <span className="bg-white text-black font-bold px-2 py-1 text-sm">Node.js</span>
-                        <span className="bg-white text-black font-bold px-2 py-1 text-sm">Express.js</span>
-                        <span className="bg-white text-black font-bold px-2 py-1 text-sm">REST APIs</span>
-                        <span className="bg-white text-black font-bold px-2 py-1 text-sm">JWT</span>
-                        <span className="bg-white text-black font-bold px-2 py-1 text-sm">OAuth 2.0</span>
-                        <span className="border border-gray-400 text-gray-300 px-2 py-1 text-sm hover:bg-white hover:text-black transition-colors">Auth0</span>
-                        <span className="border border-gray-400 text-gray-300 px-2 py-1 text-sm hover:bg-white hover:text-black transition-colors">WebSockets</span>
-                        <span className="border border-gray-400 text-gray-300 px-2 py-1 text-sm hover:bg-white hover:text-black transition-colors">SSH</span>
+                        {['Node.js', 'Express.js', 'REST APIs', 'JWT', 'OAuth 2.0'].map(s => <Badge key={s} primary>{s}</Badge>)}
+                        {['Auth0', 'WebSockets', 'SSH'].map(s => <Badge key={s}>{s}</Badge>)}
                     </div>
                 </div>
 
-                {/* Databases */}
                 <div>
-                    <div className="text-gray-500 mb-2 text-sm uppercase tracking-widest">
-                        === Databases & Storage ===
+                    <div className="mb-2 text-sm uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
+                        === Databases &amp; Storage ===
                     </div>
                     <div className="flex flex-wrap gap-2 cursor-default">
-                        <span className="bg-white text-black font-bold px-2 py-1 text-sm">MongoDB</span>
-                        <span className="bg-white text-black font-bold px-2 py-1 text-sm">PostgreSQL</span>
-                        <span className="bg-white text-black font-bold px-2 py-1 text-sm">Redis</span>
-                        <span className="border border-gray-400 text-gray-300 px-2 py-1 text-sm hover:bg-white hover:text-black transition-colors">Neon</span>
-                        <span className="border border-gray-400 text-gray-300 px-2 py-1 text-sm hover:bg-white hover:text-black transition-colors">Mongoose</span>
+                        {['MongoDB', 'PostgreSQL', 'Redis'].map(s => <Badge key={s} primary>{s}</Badge>)}
+                        {['Neon', 'Mongoose'].map(s => <Badge key={s}>{s}</Badge>)}
                     </div>
                 </div>
 
-                {/* Frontend */}
                 <div>
-                    <div className="text-gray-500 mb-2 text-sm uppercase tracking-widest">
+                    <div className="mb-2 text-sm uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
                         === Frontend ===
                     </div>
                     <div className="flex flex-wrap gap-2 cursor-default">
-                        <span className="bg-white text-black font-bold px-2 py-1 text-sm">React</span>
-                        <span className="bg-white text-black font-bold px-2 py-1 text-sm">Next.js</span>
-                        <span className="bg-white text-black font-bold px-2 py-1 text-sm">Tailwind CSS</span>
-                        <span className="border border-gray-400 text-gray-300 px-2 py-1 text-sm hover:bg-white hover:text-black transition-colors">shadcn/ui</span>
-                        <span className="border border-gray-400 text-gray-300 px-2 py-1 text-sm hover:bg-white hover:text-black transition-colors">Redux Toolkit</span>
-                        <span className="border border-gray-400 text-gray-300 px-2 py-1 text-sm hover:bg-white hover:text-black transition-colors">Framer Motion</span>
+                        {['React', 'Next.js', 'Tailwind CSS'].map(s => <Badge key={s} primary>{s}</Badge>)}
+                        {['shadcn/ui', 'Redux Toolkit', 'Framer Motion'].map(s => <Badge key={s}>{s}</Badge>)}
                     </div>
                 </div>
 
-                {/* DevOps & Tools */}
                 <div>
-                    <div className="text-gray-500 mb-2 text-sm uppercase tracking-widest">
-                        === DevOps & Tools ===
+                    <div className="mb-2 text-sm uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
+                        === DevOps &amp; Tools ===
                     </div>
                     <div className="flex flex-wrap gap-2 cursor-default">
-                        <span className="bg-white text-black font-bold px-2 py-1 text-sm">Git</span>
-                        <span className="bg-white text-black font-bold px-2 py-1 text-sm">Docker</span>
-                        <span className="bg-white text-black font-bold px-2 py-1 text-sm">Linux</span>
-                        <span className="border border-gray-400 text-gray-300 px-2 py-1 text-sm hover:bg-white hover:text-black transition-colors">GitHub Actions</span>
-                        <span className="border border-gray-400 text-gray-300 px-2 py-1 text-sm hover:bg-white hover:text-black transition-colors">Vercel</span>
-                        <span className="border border-gray-400 text-gray-300 px-2 py-1 text-sm hover:bg-white hover:text-black transition-colors">Render</span>
-                        <span className="border border-gray-400 text-gray-300 px-2 py-1 text-sm hover:bg-white hover:text-black transition-colors">Railway</span>
-                        <span className="border border-gray-400 text-gray-300 px-2 py-1 text-sm hover:bg-white hover:text-black transition-colors">Neovim</span>
+                        {['Git', 'Docker', 'Linux'].map(s => <Badge key={s} primary>{s}</Badge>)}
+                        {['GitHub Actions', 'Vercel', 'Render', 'Railway', 'Neovim'].map(s => <Badge key={s}>{s}</Badge>)}
                     </div>
                 </div>
 
-                {/* AI & Systems */}
                 <div>
-                    <div className="text-gray-500 mb-2 text-sm uppercase tracking-widest">
-                        === AI, Systems & Networking ===
+                    <div className="mb-2 text-sm uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
+                        === AI, Systems &amp; Networking ===
                     </div>
                     <div className="flex flex-wrap gap-2 cursor-default">
-                        <span className="bg-white text-black font-bold px-2 py-1 text-sm">GenAI</span>
-                        <span className="bg-white text-black font-bold px-2 py-1 text-sm">LLMs</span>
-                        <span className="bg-white text-black font-bold px-2 py-1 text-sm">LangChain</span>
-                        <span className="border border-gray-400 text-gray-300 px-2 py-1 text-sm hover:bg-white hover:text-black transition-colors">RAG</span>
-                        <span className="border border-gray-400 text-gray-300 px-2 py-1 text-sm hover:bg-white hover:text-black transition-colors">MCP</span>
-                        <span className="border border-gray-400 text-gray-300 px-2 py-1 text-sm hover:bg-white hover:text-black transition-colors">Git Internals</span>
-                        <span className="border border-gray-400 text-gray-300 px-2 py-1 text-sm hover:bg-white hover:text-black transition-colors">Distributed Systems</span>
+                        {['GenAI', 'LLMs', 'LangChain'].map(s => <Badge key={s} primary>{s}</Badge>)}
+                        {['RAG', 'MCP', 'Git Internals', 'Distributed Systems'].map(s => <Badge key={s}>{s}</Badge>)}
                     </div>
                 </div>
 
