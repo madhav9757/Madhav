@@ -1,16 +1,32 @@
-import { useState, useEffect, useRef, useLayoutEffect } from 'react';
-import { COMMAND_LIST, WELCOME_MESSAGE, THEMES, getCommandResponse } from './config/commands';
-import CommandBar from './components/CommandBar';
-import TerminalBox from './components/TerminalBox';
+import { useState, useEffect, useRef, useLayoutEffect } from "react";
+import {
+  COMMAND_LIST,
+  WELCOME_MESSAGE,
+  THEMES,
+  getCommandResponse,
+} from "./config/commands";
+import CommandBar from "./components/CommandBar";
+import TerminalBox from "./components/TerminalBox";
+import { HackerBackground } from "./components/hacker-background";
+
+// Map each theme to its --text-main color for the canvas
+const THEME_COLORS = {
+  default:   "#ffffff",
+  matrix:    "#00ff66",
+  amber:     "#ffb000",
+  nord:      "#38bdf8",
+  cyberpunk: "#f43f5e",
+};
+
 
 export default function App() {
   // Theme state with local storage persistence
   const [theme, setTheme] = useState(() => {
-    return localStorage.getItem('madhav_terminal_theme') || 'default';
+    return localStorage.getItem("madhav_terminal_theme") || "default";
   });
 
   useEffect(() => {
-    localStorage.setItem('madhav_terminal_theme', theme);
+    localStorage.setItem("madhav_terminal_theme", theme);
   }, [theme]);
 
   const cycleTheme = () => {
@@ -19,8 +35,10 @@ export default function App() {
   };
 
   // State
-  const [history, setHistory] = useState([{ id: 0, type: 'output', content: WELCOME_MESSAGE }]);
-  const [input, setInput] = useState('');
+  const [history, setHistory] = useState([
+    { id: 0, type: "output", content: WELCOME_MESSAGE },
+  ]);
+  const [input, setInput] = useState("");
   const [hintOffset, setHintOffset] = useState(0);
   const [cmdHistory, setCmdHistory] = useState([]);
   const [historyIdx, setHistoryIdx] = useState(-1);
@@ -30,8 +48,10 @@ export default function App() {
   const mirrorRef = useRef(null);
 
   // Derive autocomplete hint during render (No state-in-effect warning!)
-  const hintMatch = input ? COMMAND_LIST.find(c => c.startsWith(input.toLowerCase())) : null;
-  const hint = (input && hintMatch) ? hintMatch.slice(input.length) : '';
+  const hintMatch = input
+    ? COMMAND_LIST.find((c) => c.startsWith(input.toLowerCase()))
+    : null;
+  const hint = input && hintMatch ? hintMatch.slice(input.length) : "";
 
   // Calculate hint offset measure synchronously after layout updates
   useLayoutEffect(() => {
@@ -51,25 +71,25 @@ export default function App() {
   useEffect(() => {
     const handleGlobalTyping = (e) => {
       // Ctrl+L shortcut for Clear Screen
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'l') {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "l") {
         e.preventDefault();
         setHistory([]);
-        setInput('');
+        setInput("");
         return;
       }
 
       // Seamless typing focus capture
       if (
-        !e.ctrlKey && 
-        !e.metaKey && 
-        e.key.length === 1 && 
+        !e.ctrlKey &&
+        !e.metaKey &&
+        e.key.length === 1 &&
         document.activeElement !== inputRef.current
       ) {
         inputRef.current?.focus();
       }
     };
-    window.addEventListener('keydown', handleGlobalTyping);
-    return () => window.removeEventListener('keydown', handleGlobalTyping);
+    window.addEventListener("keydown", handleGlobalTyping);
+    return () => window.removeEventListener("keydown", handleGlobalTyping);
   }, []);
 
   // Core execution logic
@@ -84,9 +104,9 @@ export default function App() {
     setCmdHistory(newCmdHistory);
     setHistoryIdx(newCmdHistory.length);
 
-    if (lowerCmd === 'clear' || lowerCmd === 'cls') {
+    if (lowerCmd === "clear" || lowerCmd === "cls") {
       setHistory([]);
-      setInput('');
+      setInput("");
       return;
     }
 
@@ -95,40 +115,40 @@ export default function App() {
       onSelectCommand: processCommand,
       theme,
       setTheme,
-      cmdHistory: newCmdHistory
+      cmdHistory: newCmdHistory,
     });
 
     // Append to UI history
-    setHistory(prev => [
+    setHistory((prev) => [
       ...prev,
-      { id: Date.now(), type: 'input', content: rawCmd },
-      { id: Date.now() + 1, type: 'output', content: response }
+      { id: Date.now(), type: "input", content: rawCmd },
+      { id: Date.now() + 1, type: "output", content: response },
     ]);
-    setInput('');
+    setInput("");
   };
 
   // Keyboard navigation & Shortcuts
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       e.preventDefault();
       processCommand(input);
-    } else if (e.key === 'Tab' || e.key === 'ArrowRight') {
+    } else if (e.key === "Tab" || e.key === "ArrowRight") {
       if (hint) {
         e.preventDefault();
         setInput(input + hint);
       }
-    } else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'c') {
+    } else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "c") {
       // Ctrl+C: Cancel line buffer
       e.preventDefault();
-      setHistory(prev => [
+      setHistory((prev) => [
         ...prev,
-        { id: Date.now(), type: 'input', content: `${input}^C` }
+        { id: Date.now(), type: "input", content: `${input}^C` },
       ]);
-      setInput('');
-    } else if (e.key === 'Escape') {
+      setInput("");
+    } else if (e.key === "Escape") {
       e.preventDefault();
-      setInput('');
-    } else if (e.key === 'ArrowUp') {
+      setInput("");
+    } else if (e.key === "ArrowUp") {
       e.preventDefault();
       if (historyIdx > 0) {
         const nextIdx = historyIdx - 1;
@@ -139,7 +159,7 @@ export default function App() {
         setHistoryIdx(nextIdx);
         setInput(cmdHistory[nextIdx]);
       }
-    } else if (e.key === 'ArrowDown') {
+    } else if (e.key === "ArrowDown") {
       e.preventDefault();
       if (historyIdx >= 0 && historyIdx < cmdHistory.length - 1) {
         const nextIdx = historyIdx + 1;
@@ -147,18 +167,24 @@ export default function App() {
         setInput(cmdHistory[nextIdx]);
       } else {
         setHistoryIdx(-1);
-        setInput('');
+        setInput("");
       }
     }
   };
 
   return (
-    <div 
+    <div
       data-theme={theme}
-      className="min-h-screen flex flex-col md:flex-row items-center justify-center p-4 md:p-6 gap-6 md:gap-8 font-mono transition-colors duration-300"
-      style={{ backgroundColor: 'var(--bg-main)' }}
+      className="relative overflow-hidden min-h-screen flex flex-col md:flex-row items-center justify-center p-4 md:p-6 gap-6 md:gap-8 font-mono transition-colors duration-300"
+      style={{ backgroundColor: "var(--bg-main)" }}
     >
-      <TerminalBox 
+      <HackerBackground
+        color={THEME_COLORS[theme] ?? "#ffffff"}
+        fontSize={14}
+        speed={0.5}
+        className="opacity-20"
+      />
+      <TerminalBox
         history={history}
         input={input}
         hint={hint}
@@ -171,8 +197,8 @@ export default function App() {
         onClear={() => setHistory([])}
         theme={theme}
       />
-      <CommandBar 
-        onCommand={processCommand} 
+      <CommandBar
+        onCommand={processCommand}
         onToggleTheme={cycleTheme}
         currentTheme={theme}
         theme={theme}
