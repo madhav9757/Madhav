@@ -37,7 +37,7 @@ export default function TerminalBox({
   return (
     <div
       data-theme={theme}
-      className={`w-full ${isMaximized ? 'max-w-7xl h-[88vh]' : 'max-w-5xl h-[75vh] md:h-195'} bg-black text-white border-4 border-black shadow-[8px_8px_0px_#ccc] md:shadow-[12px_12px_0px_#ccc] flex flex-col cursor-text relative pt-0 overflow-hidden transition-all duration-300`}
+      className={`w-full ${isMaximized ? 'max-w-7xl h-[88vh]' : 'max-w-5xl h-[75vh] md:h-[min(780px,calc(100vh-5rem))]'} rounded-xl text-white border flex flex-col cursor-text relative pt-0 overflow-hidden transition-all duration-300 glow-ring`}
       onClick={focusInput}
       style={{
         backgroundColor: 'var(--bg-main, #000000)',
@@ -47,7 +47,7 @@ export default function TerminalBox({
       }}
     >
       <div 
-        className="w-full h-9 border-b-4 flex items-center px-4 justify-between select-none shrink-0"
+        className="w-full h-11 border-b flex items-center px-4 justify-between select-none shrink-0"
         style={{ 
           backgroundColor: 'var(--badge-bg, #ffffff)', 
           color: 'var(--badge-text, #000000)',
