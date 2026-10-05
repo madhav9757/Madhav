@@ -37,26 +37,26 @@ export default function TerminalBox({
   return (
     <div
       data-theme={theme}
-      className={`w-full ${isMaximized ? 'max-w-7xl h-[88vh]' : 'max-w-5xl h-[75vh] md:h-195'} bg-black text-white border-4 border-black shadow-[8px_8px_0px_#ccc] md:shadow-[12px_12px_0px_#ccc] flex flex-col cursor-text relative pt-0 overflow-hidden transition-all duration-300`}
+      className={`w-full ${isMaximized ? 'max-w-7xl h-[88vh]' : 'max-w-5xl h-[72vh] md:h-[min(780px,calc(100vh-5rem))]'} text-white border-2 md:border-4 flex flex-col cursor-text relative pt-0 overflow-hidden transition-all duration-300 glow-ring`}
       onClick={focusInput}
       style={{
         backgroundColor: 'var(--bg-main, #000000)',
         color: 'var(--text-main, #ffffff)',
         borderColor: 'var(--border-color, #ffffff)',
-        boxShadow: `12px 12px 0px var(--shadow-color, #ccc)`
+        boxShadow: `6px 6px 0px var(--shadow-color, #ccc)`
       }}
     >
       <div 
-        className="w-full h-9 border-b-4 flex items-center px-4 justify-between select-none shrink-0"
+        className="w-full h-9 md:h-12 border-b-2 md:border-b-4 flex items-center px-2 md:px-4 justify-between select-none shrink-0"
         style={{ 
           backgroundColor: 'var(--badge-bg, #ffffff)', 
           color: 'var(--badge-text, #000000)',
           borderColor: 'var(--border-color, #ffffff)' 
         }}
       >
-        <div className="flex items-center gap-3">
-          <span className="w-2.5 h-2.5 rounded-full animate-pulse inline-block" style={{ backgroundColor: 'var(--badge-text, #000000)' }}></span>
-          <span className="font-extrabold text-xs md:text-sm tracking-widest uppercase font-mono truncate">
+        <div className="flex min-w-0 items-center gap-2 md:gap-3">
+          <span className="size-2 md:size-2.5 shrink-0 rounded-full animate-pulse inline-block" style={{ backgroundColor: 'var(--badge-text, #000000)' }}></span>
+          <span className="min-w-0 truncate font-extrabold text-[10px] md:text-sm tracking-widest uppercase font-mono">
             bash — madhav@portfolio:~ [{theme}]
           </span>
         </div>
@@ -67,7 +67,7 @@ export default function TerminalBox({
           </span>
           <button 
             onClick={(e) => { e.stopPropagation(); setIsMinimized(!isMinimized); }}
-            className="w-5 h-5 border-2 hover:opacity-80 transition-opacity flex items-center justify-center text-xs font-bold leading-none cursor-pointer"
+            className="w-4 h-4 md:w-5 md:h-5 border md:border-2 hover:opacity-80 transition-opacity flex items-center justify-center text-[9px] md:text-xs font-bold leading-none cursor-pointer"
             style={{ backgroundColor: 'var(--badge-bg)', color: 'var(--badge-text)', borderColor: 'var(--badge-text)' }}
             title={isMinimized ? "Expand Terminal" : "Minimize Terminal"}
           >
@@ -75,7 +75,7 @@ export default function TerminalBox({
           </button>
           <button 
             onClick={(e) => { e.stopPropagation(); setIsMaximized(!isMaximized); }}
-            className="w-5 h-5 border-2 hover:opacity-80 transition-opacity flex items-center justify-center text-xs font-bold leading-none cursor-pointer"
+            className="w-4 h-4 md:w-5 md:h-5 border md:border-2 hover:opacity-80 transition-opacity flex items-center justify-center text-[9px] md:text-xs font-bold leading-none cursor-pointer"
             style={{ backgroundColor: 'var(--badge-bg)', color: 'var(--badge-text)', borderColor: 'var(--badge-text)' }}
             title={isMaximized ? "Restore Size" : "Maximize Terminal"}
           >
@@ -83,7 +83,7 @@ export default function TerminalBox({
           </button>
           <button 
             onClick={(e) => { e.stopPropagation(); if (onClear) onClear(); }}
-            className="w-5 h-5 border-2 hover:opacity-80 transition-opacity flex items-center justify-center text-xs font-bold leading-none cursor-pointer"
+            className="w-4 h-4 md:w-5 md:h-5 border md:border-2 hover:opacity-80 transition-opacity flex items-center justify-center text-[9px] md:text-xs font-bold leading-none cursor-pointer"
             style={{ backgroundColor: 'var(--badge-text)', color: 'var(--badge-bg)', borderColor: 'var(--badge-text)' }}
             title="Clear Terminal Output"
           >
@@ -95,7 +95,7 @@ export default function TerminalBox({
       {!isMinimized && (
         <div 
           ref={containerRef}
-          className="grow overflow-y-auto p-4 md:p-6 pr-2 custom-scrollbar flex flex-col gap-3 font-mono"
+          className="grow min-w-0 overflow-y-auto overflow-x-hidden p-3 md:p-7 pr-1 md:pr-2 flex flex-col gap-3 md:gap-4 font-mono text-xs sm:text-sm md:text-base"
         >
           {history.map((entry) => (
             <div

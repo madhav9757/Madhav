@@ -175,7 +175,7 @@ export default function App() {
   return (
     <div
       data-theme={theme}
-      className="relative overflow-hidden min-h-screen flex flex-col md:flex-row items-center justify-center p-4 md:p-6 gap-6 md:gap-8 font-mono transition-colors duration-300"
+      className="app-grid relative overflow-hidden min-h-screen flex flex-col md:flex-row items-center justify-center p-4 sm:p-6 lg:p-10 gap-6 md:gap-8 font-mono transition-colors duration-300"
       style={{ backgroundColor: "var(--bg-main)" }}
     >
       <HackerBackground

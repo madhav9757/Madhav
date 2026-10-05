@@ -4,7 +4,7 @@ export default function CommandBar({ onCommand, onToggleTheme, currentTheme = 'd
   return (
     <div
       data-theme={theme}
-      className="flex flex-row md:flex-col gap-3 w-full md:w-52 flex-wrap shrink-0 font-mono"
+      className="flex flex-row md:flex-col gap-2.5 w-full md:w-52 flex-wrap shrink-0 font-mono"
     >
       {quickActions.map((cmd) => {
         const isPrimaryAction = cmd === 'resume' || cmd === 'contact';
@@ -13,7 +13,7 @@ export default function CommandBar({ onCommand, onToggleTheme, currentTheme = 'd
           <button
             key={cmd}
             onClick={() => onCommand(cmd)}
-            className="flex-1 md:w-full border-4 font-bold uppercase py-2.5 md:py-3 px-3 text-xs md:text-sm hover:translate-x-1 hover:translate-y-1 active:translate-x-1.5 active:translate-y-1.5 transition-all duration-100 whitespace-nowrap tracking-wider cursor-pointer"
+            className="flex-1 md:w-full border-2 font-bold uppercase py-2.5 md:py-3 px-3 text-xs md:text-sm hover:-translate-y-0.5 active:translate-y-0 transition-all duration-150 whitespace-nowrap tracking-wider cursor-pointer"
             style={isPrimaryAction
               ? {
                   backgroundColor: 'var(--text-main)',
@@ -66,7 +66,7 @@ export default function CommandBar({ onCommand, onToggleTheme, currentTheme = 'd
         }}
         title="Cycle Terminal Color Theme"
       >
-        <span>🎨 Theme:</span>
+        <span>Theme:</span>
         <span className="underline uppercase text-xs">{currentTheme}</span>
       </button>
     </div>
