@@ -25,7 +25,7 @@
 
 .custom-scrollbar::-webkit-scrollbar { width: 8px; }
 .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-.custom-scrollbar::-webkit-scrollbar-thumb { background: var(--border-color); border: 2px solid var(--bg-main); border-radius: 999px; }
+.custom-scrollbar::-webkit-scrollbar-thumb {   background: var(--border-color); border: 2px solid var(--bg-main); border-radius: 0; }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: var(--text-accent); }
 
 @keyframes pulse-subtle { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
@@ -34,6 +34,9 @@
 .app-grid {
   background-image: linear-gradient(rgb(255 255 255 / 0.025) 1px, transparent 1px), linear-gradient(90deg, rgb(255 255 255 / 0.025) 1px, transparent 1px);
   background-size: 32px 32px;
+  background-color: var(--bg-main);
+  outline: 2px solid var(--border-color);
+  outline-offset: -10px;
 }
 
 .glow-ring { box-shadow: 0 0 0 1px var(--border-color), 0 0 40px color-mix(in srgb, var(--text-accent) 10%, transparent); }

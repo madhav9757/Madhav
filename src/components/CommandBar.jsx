@@ -13,7 +13,7 @@ export default function CommandBar({ onCommand, onToggleTheme, currentTheme = 'd
           <button
             key={cmd}
             onClick={() => onCommand(cmd)}
-            className="flex-1 md:w-full rounded-lg border font-bold uppercase py-2.5 md:py-3 px-3 text-xs md:text-sm hover:-translate-y-0.5 active:translate-y-0 transition-all duration-150 whitespace-nowrap tracking-wider cursor-pointer"
+            className="flex-1 md:w-full border-2 font-bold uppercase py-2.5 md:py-3 px-3 text-xs md:text-sm hover:-translate-y-0.5 active:translate-y-0 transition-all duration-150 whitespace-nowrap tracking-wider cursor-pointer"
             style={isPrimaryAction
               ? {
                   backgroundColor: 'var(--text-main)',
