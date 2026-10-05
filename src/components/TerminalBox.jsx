@@ -95,7 +95,7 @@ export default function TerminalBox({
       {!isMinimized && (
         <div 
           ref={containerRef}
-          className="grow overflow-y-auto p-5 md:p-7 pr-2 custom-scrollbar flex flex-col gap-4 font-mono"
+          className="grow min-w-0 overflow-y-auto overflow-x-hidden p-5 md:p-7 pr-2 custom-scrollbar flex flex-col gap-4 font-mono"
         >
           {history.map((entry) => (
             <div
