@@ -4,7 +4,7 @@ const Welcome = () => {
     return (
         <div className="mb-6 border-b-2 pb-5 leading-relaxed" style={{ borderColor: 'var(--border-dim)' }}>
             {/* Scalable ASCII Art Logo */}
-            <pre className="font-bold text-[10px] sm:text-xs md:text-sm mb-5 leading-tight cursor-default select-none"
+            <pre className="max-w-full overflow-hidden break-all font-bold text-[6px] min-[380px]:text-[7px] sm:text-xs md:text-sm mb-5 leading-[0.95] cursor-default select-none"
                 style={{ color: 'var(--text-main)' }}>
                 {`
 ███╗   ███╗  █████╗  ██████╗  ██╗  ██╗  █████╗  ██╗   ██╗
