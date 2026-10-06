@@ -37,7 +37,7 @@ export default function TerminalBox({
   return (
     <div
       data-theme={theme}
-      className={`w-full ${isMaximized ? 'max-w-7xl h-[88vh]' : 'max-w-5xl h-[72vh] md:h-[min(780px,calc(100vh-5rem))]'} text-white border-2 md:border-4 flex flex-col cursor-text relative pt-0 overflow-hidden transition-all duration-300 glow-ring`}
+      className={`w-full ${isMaximized ? 'max-w-7xl h-[85dvh]' : 'max-w-5xl h-[62dvh] md:h-[min(780px,calc(100vh-5rem))]'} text-white border-2 md:border-4 flex flex-col cursor-text relative pt-0 overflow-hidden transition-all duration-300 glow-ring`}
       onClick={focusInput}
       style={{
         backgroundColor: 'var(--bg-main, #000000)',
@@ -95,7 +95,7 @@ export default function TerminalBox({
       {!isMinimized && (
         <div 
           ref={containerRef}
-          className="grow min-w-0 overflow-y-auto overflow-x-hidden p-3 md:p-7 pr-1 md:pr-2 flex flex-col gap-3 md:gap-4 font-mono text-xs sm:text-sm md:text-base"
+          className="grow min-h-0 min-w-0 overflow-y-auto overflow-x-hidden p-3 md:p-7 pr-1 md:pr-2 flex flex-col gap-3 md:gap-4 font-mono text-xs sm:text-sm md:text-base custom-scrollbar"
         >
           {history.map((entry) => (
             <div
@@ -103,7 +103,7 @@ export default function TerminalBox({
               className={`wrap-break-word whitespace-pre-wrap ${entry.type === 'input' ? 'mt-2 opacity-90' : 'ml-2 sm:ml-4'}`}
             >
               {entry.type === 'input' && <span className="font-bold mr-2" style={{ color: 'var(--text-main)' }}>λ</span>}
-              {entry.content}
+              {entry.type === 'input' ? entry.content : <div className="output-reveal">{entry.content}</div>}
             </div>
           ))}
 
@@ -124,17 +124,23 @@ export default function TerminalBox({
                 value={input}
                 onChange={onInputChange}
                 onKeyDown={onKeyDown}
-                className="bg-transparent border-none outline-none text-lg w-full z-10 font-mono caret-white"
-                style={{ color: 'var(--text-main, #ffffff)' }}
+                className="bg-transparent border-none outline-none text-lg w-full z-10 font-mono"
+                style={{ color: 'var(--text-main, #ffffff)', caretColor: 'transparent' }}
                 autoFocus
                 autoComplete="off"
                 spellCheck="false"
               />
 
+              <span
+                aria-hidden="true"
+                className="cursor-block absolute pointer-events-none z-20 top-1/2 -translate-y-1/2"
+                style={{ left: hintOffset, color: 'var(--text-accent)' }}
+              />
+
               {hint && (
                 <span
                   className="absolute text-lg whitespace-pre pointer-events-none font-mono opacity-50"
-                  style={{ left: hintOffset, color: 'var(--text-muted)' }}
+                  style={{ left: `calc(${hintOffset}px + 12px)`, color: 'var(--text-muted)' }}
                 >
                   {hint}
                 </span>

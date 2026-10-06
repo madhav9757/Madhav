@@ -175,7 +175,7 @@ export default function App() {
   return (
     <div
       data-theme={theme}
-      className="app-grid relative overflow-hidden min-h-screen flex flex-col md:flex-row items-center justify-center p-4 sm:p-6 lg:p-10 gap-6 md:gap-8 font-mono transition-colors duration-300"
+      className="app-grid relative overflow-x-hidden overflow-y-auto min-h-screen flex flex-col md:flex-row items-center justify-center p-4 sm:p-6 lg:p-10 gap-6 md:gap-8 font-mono transition-colors duration-300"
       style={{ backgroundColor: "var(--bg-main)" }}
     >
       <HackerBackground
@@ -184,6 +184,7 @@ export default function App() {
         speed={0.5}
         className="opacity-20"
       />
+      <div className="crt-overlay" aria-hidden="true" />
       <TerminalBox
         history={history}
         input={input}
